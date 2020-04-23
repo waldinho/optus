@@ -9,6 +9,9 @@ import * as style from '../styleVars/variables.js';
 const Container = styled.div `
     margin: 3rem 0 2rem 0;
     text-align: center;
+    @media screen and (min-width: ${style.widescreen}) {
+        margin: 8rem 0 2rem 0;
+    }
     h2 {
         line-height: 0rem;
     }
@@ -43,6 +46,11 @@ const Controls = styled.div `
     margin: 2rem 0 0 0;
 `;
 
+const ErrorText = styled.h3 `
+    color: ${style.red};
+    font-weight: bold;
+`;
+
 class ProgressBarContainer extends Component {
     state = {
         bars: [0],
@@ -51,6 +59,7 @@ class ProgressBarContainer extends Component {
         selected: 0,
         loading: true,
         error: false,
+        errorText: 'Oops... Something has gone wrong, please try again later.'
     }
     componentDidMount() {
         getData()
@@ -64,11 +73,8 @@ class ProgressBarContainer extends Component {
             })
         })
         .catch(() => {
-            this.setState({
-                error: true,
-
-            })
-            console.log('ERROR: Unsuccessful API call...')
+            this.setState({error: true});
+            console.log('ERROR: Unsuccessful API call...');
         })
     }
     render() {
@@ -78,7 +84,14 @@ class ProgressBarContainer extends Component {
         limit,
         selected,
         loading,
+        error,
+        errorText,
     } = this.state
+    const callBack = (temp, selected) => {
+        if (temp[selected] < 0) {
+            temp.splice(selected, 1, 0);
+        };
+    }
     const handleClick = (index, selected) => {
         let temp = [];
         temp = temp.concat(bars);
@@ -88,21 +101,24 @@ class ProgressBarContainer extends Component {
             }
             if (item < 0) {
                 temp.splice(selected, 1, 0);
-            }
+            } return ''
         });
-        this.setState({
-            bars: temp,
-        }, () => {
-            if (temp[selected] < 0) {
-                temp.splice(selected, 1, 0);
-            };
-        })
+        this.setState({bars: temp}, () => {callBack(temp, selected)});
     };
     return (
         <Container>
-            {!loading ?
-                <>
-                <h2>Limit: {limit}</h2>
+            {loading ?
+                <Loader
+                    type="Oval"
+                    color="#00a3ad"
+                    height={80}
+                    width={80}
+                    timeout={1000}
+                />
+            : 
+            !error ?
+            <>
+                <h2 aria-label={`Limit: ${limit}`}>Limit: {limit}</h2>
                 <ProgressBar 
                     bars={bars}
                     limit={limit}
@@ -110,32 +126,22 @@ class ProgressBarContainer extends Component {
                 <Controls>
                     {buttons.map((item, i) => {
                         const firstCharacter = item.toString().charAt(0);
-                        const itemPercentage = firstCharacter === '-' ? (item / (limit / 100)).toFixed(0) : `+${(item / (limit / 100)).toFixed(0)}`
+                        const itemPercentage = firstCharacter === '-' ? (item / (limit / 100)).toFixed(0) : `+${(item / (limit / 100)).toFixed(0)}`;
                         return (
                             <button onClick={() => {handleClick(item, selected)}} key={i}>
                                 {itemPercentage}%
                             </button>
-                        )
-                    }
+                        )}
                     )}
-                    <select onChange={e => {
-                        this.setState({
-                            selected: parseInt(e.target.value),
-                        })
-                    }}>
+                    <select onChange={e => {this.setState({ selected: parseInt(e.target.value) })}}>
                         {bars.map((item, i) => (
                             <option value={i} key={i}>Progress #{i + 1}</option>
                         ))}
                     </select>
                 </Controls>
-                </>
-            : <Loader
-                type="Oval"
-                color="#00a3ad"
-                height={80}
-                width={80}
-                timeout={1000}
-            />
+            </>
+            :
+            <ErrorText aria-label={errorText}>{errorText}</ErrorText>
         }
         </Container>
     )}

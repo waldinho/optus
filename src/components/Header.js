@@ -3,12 +3,6 @@ import styled from 'styled-components';
 
 import * as style from '../styleVars/variables.js';
 
-const Header = () => (
-    <Heading>
-        <img className='logo' src='https://1.cdn.optusdigital.com/content/dam/optus/images/about-us/media-centre/multimedia/logos/OPTUS_Yellow_sRGB_RELEASE_03_310316.png/renditions/version-1506405814053/original.png' alt='Optus' title='Optus'/>
-    </Heading>
-) 
-
 const Heading = styled.div`
     background-color: ${style.black};
     min-height: 6vh;
@@ -27,5 +21,11 @@ const Heading = styled.div`
         width: 80px;
     }
 `
+
+const Header = () => (
+    <Heading>
+        <img className='logo' src='https://1.cdn.optusdigital.com/content/dam/optus/images/about-us/media-centre/multimedia/logos/OPTUS_Yellow_sRGB_RELEASE_03_310316.png/renditions/version-1506405814053/original.png' alt='Optus' title='Optus'/>
+    </Heading>
+) 
 
 export default Header

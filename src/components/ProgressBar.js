@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -37,7 +37,7 @@ const ProgressBar = ({bars, limit}) => {
             return (
                 <div key={i}>
                     <Percentage>
-                        <p>{barPercentageLimit.toFixed(0)}%</p>
+                        <p aria-label={`${barPercentageLimit.toFixed(0)}%`}>{barPercentageLimit.toFixed(0)}%</p>
                     </Percentage>
                     <Track>
                         <Thumb
