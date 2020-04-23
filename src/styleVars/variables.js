@@ -17,6 +17,7 @@ export const lg = "18px";
 export const mobile = "321px";
 export const desktop = "600px";
 export const widescreen = "1440px";
+export const hd = "2559px";
 
 // Mixins
 export const width = () => `

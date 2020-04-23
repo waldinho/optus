@@ -10,6 +10,9 @@ const Container = styled.div `
     margin: 3rem 0 2rem 0;
     text-align: center;
     @media screen and (min-width: ${style.widescreen}) {
+        margin: 4.5rem 0 2rem 0;
+    }
+    @media screen and (min-width: ${style.hd}) {
         margin: 8rem 0 2rem 0;
     }
     h2 {
