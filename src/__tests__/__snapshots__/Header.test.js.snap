@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Header /> with no props should match the snapshot 1`] = `"<div class=\\"sc-AxjAm bsWaWi\\"><img class=\\"logo\\" src=\\"https://1.cdn.optusdigital.com/content/dam/optus/images/about-us/media-centre/multimedia/logos/OPTUS_Yellow_sRGB_RELEASE_03_310316.png/renditions/version-1506405814053/original.png\\" alt=\\"Optus\\" title=\\"Optus\\"/></div>"`;
